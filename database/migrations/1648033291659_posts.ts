@@ -6,13 +6,16 @@ export default class Posts extends BaseSchema {
     public async up() {
         this.schema.createTable(this.tableName, (table) => {
             table.increments('id').primary()
+            table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE')
             table.string('title', 100)
             table.string('slug', 100)
-            table.string('body', 200)
-            table.dateTime("created_by").defaultTo(null)
-            table.dateTime("updated_by").defaultTo(null)
+            table.text('body')
+
+            table.integer("created_by").defaultTo(1)
+            table.integer("updated_by").defaultTo(1)
             table.dateTime("deleted_at").defaultTo(null)
-            table.timestamps()
+            table.dateTime("created_at").notNullable()
+            table.dateTime("updated_at").defaultTo(null)
         })
     }
 

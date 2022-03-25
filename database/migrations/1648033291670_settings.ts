@@ -6,11 +6,8 @@ export default class Settings extends BaseSchema {
     public async up() {
         this.schema.createTable(this.tableName, (table) => {
             table.increments('id').primary()
+            table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE')
             table.string('title', 100)
-            table.dateTime("created_by").defaultTo(null)
-            table.dateTime("updated_by").defaultTo(null)
-            table.dateTime("deleted_at").defaultTo(null)
-            table.timestamps()
         })
     }
 

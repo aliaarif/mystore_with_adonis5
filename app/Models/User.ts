@@ -2,14 +2,14 @@ import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
 import { beforeSave, column, BaseModel, hasOne, HasOne, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 
-import Country from 'App/Models/Country'
-import State from 'App/Models/State'
-import City from 'App/Models/City'
-
 import Setting from 'App/Models/Setting'
 
 import Profile from 'App/Models/Profile'
 import Post from 'App/Models/Post'
+
+import Product from 'App/Models/Product'
+
+
 
 
 export default class User extends BaseModel {
@@ -25,11 +25,17 @@ export default class User extends BaseModel {
   @column()
   public phone: number
 
+  @column()
+  public username: string
+
   @column({ serializeAs: null })
   public password: string
 
   @column()
   public rememberMeToken?: string
+
+  @column()
+  public created_by: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -44,22 +50,24 @@ export default class User extends BaseModel {
     }
   }
 
-  @hasOne(() => Country)
-  public country: HasOne<typeof Country>
-
-  @hasOne(() => State)
-  public state: HasOne<typeof State>
-
-  @hasOne(() => City)
-  public city: HasOne<typeof City>
-
-  @hasOne(() => Setting)
+  @hasOne(() => Setting, {
+    foreignKey: 'userId',
+  })
   public setting: HasOne<typeof Setting>
 
-  @hasOne(() => Profile)
+  @hasOne(() => Profile, {
+    foreignKey: 'userId',
+  })
   public profile: HasOne<typeof Profile>
 
-  @hasMany(() => Post)
+  @hasMany(() => Post, {
+    foreignKey: 'userId',
+  })
   public posts: HasMany<typeof Post>
+
+  @hasMany(() => Product, {
+    foreignKey: 'userId',
+  })
+  public products: HasMany<typeof Product>
 
 }

@@ -12,10 +12,12 @@ export default class UsersSchema extends BaseSchema {
       table.string('username', 100).notNullable().unique()
       table.string('password', 100).notNullable()
       table.string('remember_me_token').nullable()
-      table.dateTime("created_by").defaultTo(null);
-      table.dateTime("updated_by").defaultTo(null);
-      table.dateTime("deleted_at").defaultTo(null);
-      table.timestamps()
+
+      table.integer("created_by").defaultTo(1)
+      table.integer("updated_by").defaultTo(1)
+      table.dateTime("deleted_at").defaultTo(null)
+      table.dateTime("created_at").notNullable()
+      table.dateTime("updated_at").defaultTo(null)
     })
   }
 
